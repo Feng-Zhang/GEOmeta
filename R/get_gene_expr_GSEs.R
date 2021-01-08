@@ -10,6 +10,7 @@
 ##' @param GSE_GPL a dataframe of GSE and GPL number
 ##' @return a dataframe of sepecific gene
 ##' @export
+##' @importFrom  utils read.table write.table
 
 get_gene_expr_GSEs = function(geneName,GSE_GPL){
 

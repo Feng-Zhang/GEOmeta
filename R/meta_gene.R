@@ -10,7 +10,7 @@
 ##' @param metaInputData a dataframe of meta input data
 ##' @return a dataframe of meta results for one gene
 ##' @export
-##' @importFrom meta metacont
+##' @importFrom meta metacont forest
 ##'
 meta_gene = function(metaInputData,geneName){
 

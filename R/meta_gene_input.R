@@ -10,6 +10,7 @@
 ##' @param metaDat a dataframe includes GSE_GPL, GSE, GSM, Group
 ##' @return a dataframe of meta input data
 ##' @export
+##' @importFrom stats sd
 
 meta_gene_input = function(metaDat,geneName){
 
