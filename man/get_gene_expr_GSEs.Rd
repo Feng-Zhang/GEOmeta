@@ -12,9 +12,6 @@ get_gene_expr_GSEs(geneName, GSE_GPL)
 \item{GSE_GPL}{a dataframe of GSE and GPL number}
 }
 \value{
-download GSE expression matrix and GPL annotation,
-        and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
-
 a dataframe of sepecific gene
 }
 \description{

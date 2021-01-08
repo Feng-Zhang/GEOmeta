@@ -10,7 +10,8 @@
 ##' @return download GSE expression matrix and GPL annotation,
 ##'         and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
 ##' @export
-##'
+##' @importFrom stringr  str_split_fixed
+##' @importFrom GEOquery getGEO
 
 get_GSE_GPL = function(GSE_GPL){
   #GSE_GPL= row.names(GSE_GPL_ids)[1:5]

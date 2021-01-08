@@ -12,13 +12,8 @@ getProbe(geneName, GPL, expr)
 \item{GPL}{a character vector of GPL number}
 
 \item{expr}{a GSE expression dataframe where probes would to be selected based on their probes max expression}
-
-\item{GSE_GPL}{a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.}
 }
 \value{
-download GSE expression matrix and GPL annotation,
-        and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
-
 a character of probe
 }
 \description{

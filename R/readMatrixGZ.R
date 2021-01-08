@@ -6,14 +6,15 @@
 ##'
 ##' @details nothing
 ##'
-##' @param GSE_GPL a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.
-##' @return download GSE expression matrix and GPL annotation,
-##'         and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
+##' @param GSE a character of GSE number
+##' @return a GSE expression dataframe
+##' @export
+##' @importFrom stringr str_detect
+##' @importFrom data.table fread
 
 
 readMatrixGZ = function(GSE){
-  ##' @param GSE a character of GSE number
-  ##' @return a GSE expression dataframe
+
 
   #GSE="GSE151839"
   # get the number of redundant line
@@ -21,9 +22,9 @@ readMatrixGZ = function(GSE){
   skipNum = which(str_detect(exprSet,"ID_REF"))-1
 
   # read matrix
-  exprSet = try(fread(paste(GSE,"_series_matrix.txt.gz",sep=""),head=T,skip=skipNum),silent=T)
+  exprSet = try(fread(paste(GSE,"_series_matrix.txt.gz",sep=""),header = TRUE,skip=skipNum),silent=T)
   if("try-error" %in% class(exprSet)){
-    exprSet= read.table(paste(GSE,"_series_matrix.txt.gz",sep=""),head=T,skip=skipNum,sep="\t",comment.char = "!",row.names = "ID_REF")
+    exprSet= read.table(paste(GSE,"_series_matrix.txt.gz",sep=""),header=TRUE,skip=skipNum,sep="\t",comment.char = "!",row.names = "ID_REF")
   } else {
     probes = exprSet$ID_REF
     exprSet = as.data.frame(exprSet[,-1])

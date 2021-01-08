@@ -6,14 +6,14 @@
 ##'
 ##' @details nothing
 ##'
-##' @param GSE_GPL a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.
-##' @return download GSE expression matrix and GPL annotation,
-##'         and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
-
+##' @param geneName a character of gene SYMBOL name
+##' @param metaInputData a dataframe of meta input data
+##' @return a dataframe of meta results for one gene
+##' @export
+##' @importFrom meta metacont
+##'
 meta_gene = function(metaInputData,geneName){
-  ##' @param geneName a character of gene SYMBOL name
-  ##' @param metaInputData a dataframe of meta input data
-  ##' @return a dataframe of meta results for one gene
+
   #metaInputData=metaInput;geneName=gene
   metaAna = metacont(studlab=study,n_case,mean_case,sd_case,n_control,mean_control,sd_control, data=metaInputData, sm="SMD",comb.fixed=F)
   forest(metaAna)

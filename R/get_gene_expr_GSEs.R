@@ -6,14 +6,13 @@
 ##'
 ##' @details nothing
 ##'
-##' @param GSE_GPL a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.
-##' @return download GSE expression matrix and GPL annotation,
-##'         and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
+##' @param geneName a character of gene SYMBOL name
+##' @param GSE_GPL a dataframe of GSE and GPL number
+##' @return a dataframe of sepecific gene
+##' @export
 
 get_gene_expr_GSEs = function(geneName,GSE_GPL){
-  ##' @param geneName a character of gene SYMBOL name
-  ##' @param GSE_GPL a dataframe of GSE and GPL number
-  ##' @return a dataframe of sepecific gene
+
   #geneName=gene;GSE_GPL_ids
   geneExpr = NULL
   if(file.exists(paste0(geneName,"/annoGene.txt"))) file.remove(paste0(geneName,"/annoGene.txt"))

@@ -6,16 +6,16 @@
 ##'
 ##' @details nothing
 ##'
-##' @param GSE_GPL a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.
-##' @return download GSE expression matrix and GPL annotation,
-##'         and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
+##' @param geneName a character of gene SYMBOL name
+##' @param GPL a character vector of GPL number
+##' @param expr a GSE expression dataframe where probes would to be selected based on their probes max expression
+##' @return a character of probe
+##' @importFrom stringr str_detect str_split
+
 
 
 getProbe = function(geneName,GPL,expr){
-  ##' @param geneName a character of gene SYMBOL name
-  ##' @param GPL a character vector of GPL number
-  ##' @param expr a GSE expression dataframe where probes would to be selected based on their probes max expression
-  ##' @return a character of probe
+
   #geneName=gene;GPL=GSE_GPL[id,"GPL"];expr=exprSet
   annoRaw = readLines(paste0(GPL,".soft"))
   annoGene = annoRaw[str_detect(annoRaw,paste(' ',geneName,' |\t',geneName,"\t",sep=""))]
@@ -32,7 +32,6 @@ getProbe = function(geneName,GPL,expr){
   }
 
   # get full annotation
-
   if(nrow(annoGene)==0) {
     anno = cbind(geneName,GPL,nrow(expr),"NA")
     colnames(anno)=c("Gene","GPL","detectedExprNum","probe")

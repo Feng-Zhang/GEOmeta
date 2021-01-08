@@ -10,13 +10,8 @@ meta_gene_input(metaDat, geneName)
 \item{metaDat}{a dataframe includes GSE_GPL, GSE, GSM, Group}
 
 \item{geneName}{a character of gene SYMBOL name}
-
-\item{GSE_GPL}{a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.}
 }
 \value{
-download GSE expression matrix and GPL annotation,
-        and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
-
 a dataframe of meta input data
 }
 \description{

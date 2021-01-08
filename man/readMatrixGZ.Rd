@@ -8,13 +8,8 @@ readMatrixGZ(GSE)
 }
 \arguments{
 \item{GSE}{a character of GSE number}
-
-\item{GSE_GPL}{a character vactor comparised of GSE and GPL number.Note if GSE was sequenced on only one platform, please just give GSE number.}
 }
 \value{
-download GSE expression matrix and GPL annotation,
-        and return a matrix with colanmes of "GSE" and "GPL" and row names of GSE_GPL
-
 a GSE expression dataframe
 }
 \description{
