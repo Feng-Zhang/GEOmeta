@@ -7,12 +7,12 @@
 meta_gene(metaInputData, geneName)
 }
 \arguments{
-\item{metaInputData}{a dataframe of meta input data}
+\item{metaInputData}{A dataframe of meta input data}
 
-\item{geneName}{a character of gene SYMBOL name}
+\item{geneName}{A character of gene SYMBOL name}
 }
 \value{
-a dataframe of meta results for one gene
+A data.frame of meta results for one gene
 }
 \description{
 This is a plotting tool to simultaneously display the association p-value,
