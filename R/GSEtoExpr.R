@@ -12,7 +12,6 @@
 
 GSEtoExpr = function(GSE,destdir="tmp"){
   annotation <- NULL
-  exitStatus=0
   #GSE="GSE18508" GSE="GSE128562"
   if(!file.exists(destdir)) dir.create(destdir)
   # download expresstion matrix
@@ -24,7 +23,7 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)
     exprSet = exprs(eSet)
-    if(file.exists(pheFileName) & file.exists(exprFileName)) invisible(exitStatus)
+    if(file.exists(pheFileName) & file.exists(exprFileName)) return("Conversion Done!")
     GPLdata = eSet@featureData@data
     if(nrow(GPLdata)>0){
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
@@ -34,7 +33,8 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     write.table(pdata,file = pheFileName,sep="\t",quote = FALSE)
     write.table(exprSet,file = exprFileName,sep="\t",quote = FALSE)
   }
-  invisible(exitStatus)
+  #invisible(exitStatus)
+  return("Conversion Done!")
 }
 
 ##' @title Get annotation information of probes
@@ -80,7 +80,7 @@ probesToGene = function(exprSet,probe_symbol){
   tmp = by(exprSet,probe_symbol$symbolID,function(x) rownames(x)[which.max(rowMeans(x))])
   probes = as.character(tmp)
   exprSet=exprSet[rownames(exprSet) %in% probes ,]
-  print(paste0("The dim of expression matrix wiht gene symbol: number of row is ",nrow(exprSet),", number of column is ",ncol(exprSet)))
+  print(paste0("The dim of expression matrix with gene symbol: number of row is ",nrow(exprSet),", number of column is ",ncol(exprSet)))
   rownames(exprSet)=probe_symbol[match(rownames(exprSet),probe_symbol$probeID),2]
 
   return(exprSet)
