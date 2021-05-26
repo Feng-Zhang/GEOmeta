@@ -11,7 +11,8 @@
 ##' \dontrun{
 ##' GPL="GPL13648"
 ##' gplDat = Table(getGEO(GPL,getGPL=TRUE,destdir ="tmp"));colnames(gplDat)
-##' updateAnno(GPL,probeID="ID",symbolID="GENE_SYMBOL")
+##' updateAnno(GPL,probeID="ID",symbolID="Gene Symbol")
+##' load("data/GPLlist.rda")
 ##' }
 ##' @importFrom usethis use_data
 
