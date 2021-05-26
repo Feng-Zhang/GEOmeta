@@ -22,6 +22,7 @@ updateAnno = function(GPL,probeID,symbolID){
     temp=c(GPL,probeID,symbolID)
     GPLlist = rbind(GPLlist,temp)
     row.names(GPLlist)[GPLlist$GPL==GPL]=GPL
+    GPLlist = GPLlist[order(GPLlist[,"GPL"])]
     if(nrow(GPLlist)>rawRowN){
       use_data(GPLlist,overwrite=TRUE)
     }

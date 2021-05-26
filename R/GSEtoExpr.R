@@ -51,7 +51,7 @@ annoProbe = function(GPL="GPL9061",GPLdata=NA){
   if(any(GPL %in% GPLlist$GPL)){
     ids = as.character(GPLlist[GPL,2:3]) #选择GPL的id and symbol
   } else {
-    stop("The gene symbol header of the GPL is not in our GPLlist! \n Please add GPL, ID,Gene symbol to GPLlist.")
+    stop("The gene symbol header of the ",GPL," is not in our GPLlist! \n Please add GPL, ID,Gene symbol to GPLlist.")
   }
 
   #download the data of GPL
