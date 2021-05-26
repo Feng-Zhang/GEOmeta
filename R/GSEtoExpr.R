@@ -12,6 +12,7 @@
 
 GSEtoExpr = function(GSE,destdir="tmp"){
   annotation <- NULL
+  exitStatus=0
   #GSE="GSE18508" GSE="GSE128562"
   if(!file.exists(destdir)) dir.create(destdir)
   # download expresstion matrix
@@ -23,7 +24,7 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)
     exprSet = exprs(eSet)
-    if(file.exists(pheFileName) & file.exists(exprFileName)) invisible(0)
+    if(file.exists(pheFileName) & file.exists(exprFileName)) invisible(exitStatus)
     GPLdata = eSet@featureData@data
     if(nrow(GPLdata)>0){
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
@@ -33,7 +34,7 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     write.table(pdata,file = pheFileName,sep="\t",quote = FALSE)
     write.table(exprSet,file = exprFileName,sep="\t",quote = FALSE)
   }
-  invisible(0)
+  invisible(exitStatus)
 }
 
 ##' @title Get annotation information of probes
