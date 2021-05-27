@@ -1,8 +1,5 @@
-##' @title Regional Plot Association Results of Pig
-##' @description This is a plotting tool to simultaneously display the association p-value,
-##'              the LD, recombination rate and annotated gene in region of interesting in pig.
-##'              The interpretation and visualization tool of association results will
-##'              contribute to further identification of causal mutations.
+##' @title Read expression matrix in compressed format
+##' @description nothing
 ##'
 ##' @details nothing
 ##'

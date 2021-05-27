@@ -9,5 +9,13 @@ Description: More about what it does (maybe more than one line)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: stringr, GEOquery, data.table, meta
+Depends: 
+    R (>= 2.10)
+Imports:
+    stringr,
+    GEOquery,
+    data.table,
+    meta,
+    Biobase,
+    usethis
 RoxygenNote: 7.1.1
