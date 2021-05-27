@@ -1,3 +1,45 @@
+##' @title Perpare the input data of one gene for meta analysis
+##' @description nothing
+##'
+##' @details nothing
+##'
+##' @param pheGene A dataframe, includes GSE, GSM, Group, GeneExpr
+##' @param geneName a character of gene SYMBOL name
+##' @return a dataframe of meta input data
+##' @export
+##' @importFrom stats sd
+
+metaGene = function(pheGene,geneName){
+
+  #pheGene=
+  group_summ = as.data.frame(table(pheGene$GSE,pheGene$Group))
+  GSEs = unique(pheGene$GSE)
+  metaInput=NULL
+  for(i in 1:length(GSEs)){
+    print(summ[i,"Var1"])
+    temp = pheGene[pheGene$GSE_GPL==summ[i,"Var1"], ]
+
+    id=summ[i,"Var1"]
+    caseInd = temp[temp$Group == "case","GSM"]
+    expr_case = as.numeric(temp[temp$GSM%in%caseInd,geneName])
+    n_case = length(caseInd)
+    mean_case = mean(expr_case,na.rm = T)
+    sd_case = sd(expr_case,na.rm=T)
+
+    controlInd = temp[temp$Group == "control","GSM"]
+    expr_control =  as.numeric(temp[temp$GSM%in%controlInd,geneName])
+    n_control = length(controlInd)
+    mean_control = mean(expr_control,na.rm = T)
+    sd_control = sd(expr_control,na.rm=T)
+    tempInput = data.frame(study=id,n_case,mean_case,sd_case,n_control,mean_control,sd_control)
+    metaInput = rbind(metaInput,tempInput)
+
+  }
+  metaData = metacont(studlab=study,n_case,mean_case,sd_case,n_control,mean_control,sd_control, data=metaInput, sm="SMD")
+  return(metaData)
+}
+
+
 ##' @title Regional Plot Association Results of Pig
 ##' @description This is a plotting tool to simultaneously display the association p-value,
 ##'              the LD, recombination rate and annotated gene in region of interesting in pig.
@@ -12,16 +54,13 @@
 ##' @export
 ##' @importFrom meta metacont forest
 ##'
-meta_gene = function(metaInputData,geneName){
-  study <- n_case <- mean_case <- sd_case <- n_control <- mean_control <- sd_control <- NULL
-  #metaInputData=metaInput;geneName=gene
-  metaAna = metacont(studlab=study,n_case,mean_case,sd_case,n_control,mean_control,sd_control, data=metaInputData, sm="SMD",comb.fixed=F)
-  forest(metaAna)
-  res= data.frame(metaAna)
+metaRes = function(metaData){
+  if(!class(metaData)) stop("")
+  res= data.frame(metaData)
   res[,c("fixed_TE","fixed_lower","fixed_upper","fixed_z","fixed_pvalue","random_TE","random_lower","random_upper","random_z","random_pvalue","I2","tao2","heter_pvalue")] = NA
-  res[1,c("fixed_TE","fixed_lower","fixed_upper","fixed_z","fixed_pvalue")] = data.frame(summary(metaAna)$fixed)[c("TE", "lower", "upper","statistic","p")]
-  res[1,c("random_TE","random_lower","random_upper","random_z","random_pvalue")] = data.frame(summary(metaAna)$random)[c("TE", "lower", "upper","statistic","p")]
-  res[1,c("I2","tao2","heter_pvalue")] = c(metaAna$I2*100,metaAna$tau^2,metaAna$pval.Q)
+  res[1,c("fixed_TE","fixed_lower","fixed_upper","fixed_z","fixed_pvalue")] = data.frame(summary(metaData)$fixed)[c("TE", "lower", "upper","statistic","p")]
+  res[1,c("random_TE","random_lower","random_upper","random_z","random_pvalue")] = data.frame(summary(metaData)$random)[c("TE", "lower", "upper","statistic","p")]
+  res[1,c("I2","tao2","heter_pvalue")] = c(metaData$I2*100,metaData$tau^2,metaData$pval.Q)
   return(res)
 }
 

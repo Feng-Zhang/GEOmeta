@@ -28,10 +28,10 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     if(nrow(GPLdata)>0){
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
-    } else stop("There is no GPL information for this GSE chip. The package can not ")
+    } else stop("There is no GPL information for this GSE chip.")
 
-    write.table(pdata,file = pheFileName,sep="\t",quote = FALSE)
-    write.table(exprSet,file = exprFileName,sep="\t",quote = FALSE)
+    write.table(pdata,file = pheFileName,sep="\t",quote = TRUE)
+    write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
   }
   #invisible(exitStatus)
   return("Conversion Done!")
