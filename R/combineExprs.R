@@ -13,7 +13,8 @@
 ##' x=matrix(1:9,nrow=3,dimnames = list(c("row1","row2","row3"),c("col1","col2","col3")))
 ##' y=matrix(1:8,nrow=4,dimnames = list(c("row2","row3","row4","row5"),c("col1","col5")))
 ##' mergeByRowname(x,y)
-##' mergeByRowname(x,y,all.x=F)
+##' mergeByRowname(x,y,all.x=FALSE)
+##' @importFrom utils modifyList
 
 mergeByRowname = function(x,y,all=TRUE,...){
   dotargs = list(...)
@@ -31,11 +32,15 @@ mergeByRowname = function(x,y,all=TRUE,...){
 ##' @details combineExprs would serach expression matrix file with pattern of ^GSE.*-GPL.*-matrix.txt$ based on the GSE ids in phe argument.
 ##'
 ##' @param destdir A character, the path to save expression data, where file name of expression data has pattern ^GSE.*-GPL.*-matrix.txt$ .
+##' @param GSEs Logical or a vector of character.
 ##' @return Save the files of expression matrix and phenotype information.
 ##' @export
-combineExprs = function(destdir="tmp"){
+##' @importFrom  stringr str_split_fixed
+##' @importFrom  utils read.table
+combineExprs = function(destdir="tmp",GSEs=FALSE){
   allMatrix = NULL
   exprFiles = dir(path=destdir,pattern = "^GSE.*-GPL.*-matrix.txt$")
+  if(GSEs){exprFiles=NULL}
   GSEs = unique(str_split_fixed(exprFiles,"-",2)[,1])
   for(i in GSEs){
     GSEnames = exprFiles[str_detect(exprFiles,pattern = paste0("^",i))]

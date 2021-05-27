@@ -27,5 +27,5 @@ nothing
 x=matrix(1:9,nrow=3,dimnames = list(c("row1","row2","row3"),c("col1","col2","col3")))
 y=matrix(1:8,nrow=4,dimnames = list(c("row2","row3","row4","row5"),c("col1","col5")))
 mergeByRowname(x,y)
-mergeByRowname(x,y,all.x=F)
+mergeByRowname(x,y,all.x=FALSE)
 }

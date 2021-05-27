@@ -2,7 +2,7 @@
 % Please edit documentation in R/readMatrixGZ.R
 \name{readMatrixGZ}
 \alias{readMatrixGZ}
-\title{Regional Plot Association Results of Pig}
+\title{Read expression matrix in compressed format}
 \usage{
 readMatrixGZ(GSE)
 }
@@ -13,10 +13,7 @@ readMatrixGZ(GSE)
 a GSE expression dataframe
 }
 \description{
-This is a plotting tool to simultaneously display the association p-value,
-             the LD, recombination rate and annotated gene in region of interesting in pig.
-             The interpretation and visualization tool of association results will
-             contribute to further identification of causal mutations.
+nothing
 }
 \details{
 nothing

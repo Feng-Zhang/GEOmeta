@@ -2,23 +2,18 @@
 % Please edit documentation in R/meta_gene.R
 \name{metaRes}
 \alias{metaRes}
-\title{Regional Plot Association Results of Pig}
+\title{Extract the result of data with meta class}
 \usage{
 metaRes(metaData)
 }
 \arguments{
-\item{geneName}{A character of gene SYMBOL name}
-
-\item{metaInputData}{A dataframe of meta input data}
+\item{metaData}{A dataframe of meta input data}
 }
 \value{
 A data.frame of meta results for one gene
 }
 \description{
-This is a plotting tool to simultaneously display the association p-value,
-             the LD, recombination rate and annotated gene in region of interesting in pig.
-             The interpretation and visualization tool of association results will
-             contribute to further identification of causal mutations.
+nothing
 }
 \details{
 nothing

@@ -2,7 +2,7 @@
 % Please edit documentation in R/meta_gene.R
 \name{metaGene}
 \alias{metaGene}
-\title{Perpare the input data of one gene for meta analysis}
+\title{Meta analysis for one gene}
 \usage{
 metaGene(pheGene, geneName)
 }

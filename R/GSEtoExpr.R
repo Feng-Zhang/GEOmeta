@@ -9,6 +9,7 @@
 ##' @export
 ##' @importFrom GEOquery getGEO
 ##' @importFrom Biobase pData exprs
+##' @importFrom utils write.table
 
 GSEtoExpr = function(GSE,destdir="tmp"){
   annotation <- NULL

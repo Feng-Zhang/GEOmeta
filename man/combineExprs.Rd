@@ -4,10 +4,12 @@
 \alias{combineExprs}
 \title{Download multiple GSE expression matrix and convert simultaneously probe to gene symbol}
 \usage{
-combineExprs(destdir = "tmp")
+combineExprs(destdir = "tmp", GSEs = FALSE)
 }
 \arguments{
 \item{destdir}{A character, the path to save expression data, where file name of expression data has pattern ^GSE.*-GPL.*-matrix.txt$ .}
+
+\item{GSEs}{Logical or a vector of character.}
 }
 \value{
 Save the files of expression matrix and phenotype information.
