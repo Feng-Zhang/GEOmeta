@@ -11,7 +11,7 @@
 ##' @importFrom Biobase pData exprs
 ##' @importFrom utils write.table
 
-GSEtoExpr = function(GSE,destdir="tmp"){
+GSEtoExpr = function(GSE,destdir="tmp",annotation=FALSE){
   annotation <- NULL
   #GSE="GSE18508" GSE="GSE128562"
   if(!file.exists(destdir)) dir.create(destdir)
@@ -24,7 +24,7 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)
     exprSet = exprs(eSet)
-    if(file.exists(pheFileName) & file.exists(exprFileName)) return("Conversion Done!")
+    if(file.exists(pheFileName) & file.exists(exprFileName)) return(gse)
     GPLdata = eSet@featureData@data
     if(nrow(GPLdata)>0){
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
@@ -35,7 +35,7 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
   }
   #invisible(exitStatus)
-  return("Conversion Done!")
+  return(gse)
 }
 
 ##' @title Get annotation information of probes
