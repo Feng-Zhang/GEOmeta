@@ -13,7 +13,7 @@
 
 GSEtoExpr = function(GSE,destdir="tmp"){
   annotation <- NULL
-  #GSE="GSE18508" GSE="GSE128562"
+  #GSE="GSE18508" GSE="GSE128562" GSE="GSE114517"
   if(!file.exists(destdir)) dir.create(destdir)
   # download expresstion matrix
   gse = getGEO(GSE, destdir = destdir, getGPL = TRUE)

@@ -32,16 +32,15 @@ mergeByRowname = function(x,y,all=TRUE,...){
 ##' @details combineExprs would serach expression matrix file with pattern of ^GSE.*-GPL.*-matrix.txt$ based on the GSE ids in phe argument.
 ##'
 ##' @param destdir A character, the path to save expression data, where file name of expression data has pattern ^GSE.*-GPL.*-matrix.txt$ .
-##' @param GSEs Logical or a vector of character.
+##' @param GSEs A vector of GSE character. default to combine all expression data in destdir filefolder.
 ##' @return Save the files of expression matrix and phenotype information.
 ##' @export
 ##' @importFrom  stringr str_split_fixed
 ##' @importFrom  utils read.table
-combineExprs = function(destdir="tmp",GSEs=FALSE){
+combineExprs = function(destdir="tmp",GSEs=NULL){
   allMatrix = NULL
   exprFiles = dir(path=destdir,pattern = "^GSE.*-GPL.*-matrix.txt$")
-  if(GSEs){exprFiles=NULL}
-  GSEs = unique(str_split_fixed(exprFiles,"-",2)[,1])
+  if(is.null(GSEs)){GSEs = unique(str_split_fixed(exprFiles,"-",2)[,1])}
   for(i in GSEs){
     GSEnames = exprFiles[str_detect(exprFiles,pattern = paste0("^",i))]
     expr = NULL

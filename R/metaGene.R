@@ -19,14 +19,14 @@ metaGene = function(pheGene,geneName){
     caseInd = temp[temp$Group == "treatment","GSM"]
     expr_case = as.numeric(temp[temp$Group == "treatment",geneName])
     n_case = length(caseInd)
-    mean_case = mean(expr_case,na.rm = T)
-    sd_case = sd(expr_case,na.rm=T)
+    mean_case = mean(expr_case,na.rm = TRUE)
+    sd_case = sd(expr_case,na.rm=TRUE)
 
     controlInd = temp[temp$Group == "control","GSM"]
     expr_control =  as.numeric(temp[temp$Group == "control",geneName])
     n_control = length(controlInd)
-    mean_control = mean(expr_control,na.rm = T)
-    sd_control = sd(expr_control,na.rm=T)
+    mean_control = mean(expr_control,na.rm = TRUE)
+    sd_control = sd(expr_control,na.rm=TRUE)
     tempInput = data.frame(study=GSE,n_case,mean_case,sd_case,n_control,mean_control,sd_control)
     metaInput = rbind(metaInput,tempInput)
 

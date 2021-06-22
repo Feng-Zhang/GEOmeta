@@ -1,27 +1,44 @@
 ---
 title: "Introduction to GEOmeta"
 author: "Feng Zhang"
-date: "2021/5/26"
-output: html_document
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette: default
+  md_document: default
+show_toc: yes
+vignette: >
+  %\VignetteIndexEntry{Introduction to GEOmeta} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, comment = "#>")
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  comment = "#>",
+  fig.path = "../Figs/",
+  warning=FALSE,
+  message = FALSE
+)
 options(tibble.print_min = 4, tibble.print_max = 4)
+#rmarkdown::render("vignettes/base.Rmd",output_format = "md_document")
 ```
 
 # overview
+对GEOquery包进行封装，方便下载多个芯片数据，然后用封装的meta包进行meta分析。  
 
-## 对一个基因进行meta分析
+## 对芯片其中一个基因进行meta分析  
+待定  
 
-## 对所有基因进行meta分析
-### 1. 下载所有芯片的表型和基因型
+## 对芯片的所有基因进行meta分析  
+### 1. 下载所有芯片的表型和基因型  
 首先，需要知道GSE的id号。如果要做meta分析，还需要知道GSE里哪些个体，即GSM号，和分组信息。我们以内置数据`phe_test`为例：
 ```{r}
 data("phe_test")
 gseIds=unique(phe_test$GSE)
 ```
-如果这步还不相做meta分析，可以直接提供GSE的id号：
+如果这步不想做meta分析，只是想下载数据，可以直接提供GSE的id号：
 ```{r}
 gseIds=c("GSE32138","GSE24132","GSE38900")
 ```
@@ -31,15 +48,16 @@ for(i in gseIds){
   print(i)
   GSEtoExpr(i,destdir = "../tmp")
 }
+
 ```
 GEOmeta会自动下载所有芯片数据并存储在当前工作目录的tmp文件夹下。  
-#### Debug
-如果出现下面的错误：
+
 
 ### 2. 合并所有芯片成一个大矩阵
 我们需要把下载的芯片的表达矩阵进行合并
 ```{r}
-exprs = combineExprs(destdir = "../tmp")
+exprs = combineExprs(destdir = "../tmp",GSEs = gseIds)
+dim(exprs)
 ```
 
 ### 3. 进行meta分析
@@ -49,7 +67,7 @@ data("phe_test")
 inds = intersect(phe_test$GSM,colnames(exprs))
 phe_test = phe_test[phe_test$GSM %in% inds,]
 exprs = unique(exprs[,inds])
-
+dim(exprs)
 ```
 
 接着再对每个基因进行meta分析
@@ -58,12 +76,12 @@ allMeta = NULL
 genes = row.names(exprs)
 for(i in 1:20){
   #i=1
-  print(i)
   pheGene = cbind(phe_test,t(exprs[1,]))
   metaDat = metaGene(pheGene,genes[i])
   res = metaRes(metaDat)
   allMeta = rbind(allMeta,res)
 }
+head(allMeta)
 ```
 
 
