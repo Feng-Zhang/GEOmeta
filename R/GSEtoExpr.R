@@ -5,18 +5,20 @@
 ##'
 ##' @param GSE A character, the number of GSE.
 ##' @param destdir A character, the path to download GSE related files.
-##' @return Save the files of expression matrix and phenotype information.
+##' @param annotSymbol A Boolean. The default is FALSE, do not annotate probe to gene Symbol.
+##' @param getGPL A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.
+##' @return Save the files of expression matrix and phenotype information. The pattern of filename are GSE-GPL-phe.txt for phenotype and GSE-GPL-matrix.txt for genotype splilted by tab.
 ##' @export
 ##' @importFrom GEOquery getGEO
 ##' @importFrom Biobase pData exprs
 ##' @importFrom utils write.table
 
-GSEtoExpr = function(GSE,destdir="tmp"){
+saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
   annotation <- NULL
   #GSE="GSE18508" GSE="GSE128562" GSE="GSE114517"
   if(!file.exists(destdir)) dir.create(destdir)
   # download expresstion matrix
-  gse = getGEO(GSE, destdir = destdir, getGPL = TRUE)
+  gse = getGEO(GSE, destdir = destdir, getGPL = getGPL)
   for(i in 1:length(gse)){
     eSet = gse[[i]]
     GPL = eSet@annotation
@@ -26,10 +28,11 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     exprSet = exprs(eSet)
     if(file.exists(pheFileName) & file.exists(exprFileName)) return("Conversion Done!")
     GPLdata = eSet@featureData@data
-    if(nrow(GPLdata)>0){
+    if(annotSymbol){
+      if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
-    } else stop("There is no GPL information for this GSE chip.")
+    }
 
     write.table(pdata,file = pheFileName,sep="\t",quote = TRUE)
     write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
