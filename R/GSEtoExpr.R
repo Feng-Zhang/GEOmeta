@@ -28,8 +28,8 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
     exprSet = exprs(eSet)
     if(file.exists(pheFileName) & file.exists(exprFileName)) return("Conversion Done!")
     GPLdata = eSet@featureData@data
-    if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
     if(annotSymbol){
+      if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
     }
