@@ -5,13 +5,14 @@
 ##'
 ##' @param GSE A character, the number of GSE.
 ##' @param destdir A character, the path to download GSE related files.
+##' @param annotSymbol A Boolean. The default is FALSE, do not annotate probe to gene Symbol.
 ##' @return Save the files of expression matrix and phenotype information.
 ##' @export
 ##' @importFrom GEOquery getGEO
 ##' @importFrom Biobase pData exprs
 ##' @importFrom utils write.table
 
-GSEtoExpr = function(GSE,destdir="tmp"){
+saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE){
   annotation <- NULL
   #GSE="GSE18508" GSE="GSE128562" GSE="GSE114517"
   if(!file.exists(destdir)) dir.create(destdir)
@@ -26,10 +27,11 @@ GSEtoExpr = function(GSE,destdir="tmp"){
     exprSet = exprs(eSet)
     if(file.exists(pheFileName) & file.exists(exprFileName)) return("Conversion Done!")
     GPLdata = eSet@featureData@data
-    if(nrow(GPLdata)>0){
+    if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
+    if(annotSymbol){
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
-    } else stop("There is no GPL information for this GSE chip.")
+    }
 
     write.table(pdata,file = pheFileName,sep="\t",quote = TRUE)
     write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
