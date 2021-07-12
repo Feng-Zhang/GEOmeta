@@ -25,13 +25,14 @@ options(tibble.print_min = 4, tibble.print_max = 4)
 #rmarkdown::render("vignettes/base.Rmd",output_format = "md_document")
 ```
 
-# overview
+# overview  
 对GEOquery包进行封装，方便下载多个芯片数据，然后用封装的meta包进行meta分析。  
 
 ## 对芯片其中一个基因进行meta分析  
 待定  
 
 ## 对芯片的所有基因进行meta分析  
+
 ### 1. 下载所有芯片的表型和基因型  
 首先，需要知道GSE的id号。如果要做meta分析，还需要知道GSE里哪些个体，即GSM号，和分组信息。我们以内置数据`phe_test`为例：
 ```{r}
@@ -46,7 +47,7 @@ gseIds=c("GSE32138","GSE24132","GSE38900")
 ```{r}
 for(i in gseIds){
   print(i)
-  GSEtoExpr(i,destdir = "../tmp")
+  saveGSE(i,destdir = "../tmp",annotSymbol = TRUE)
 }
 
 ```
