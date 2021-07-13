@@ -118,6 +118,7 @@ getGPLid = function(GSE, destdir = "tmp"){
 ##' @param GSE A character, the number of GSE.
 ##' @param destdir A character, the path to download GSE related files.
 ##' @return A data frame with GSE and GPL.
+##' @export
 GSEtoGPL = function(GSE, destdir = "tmp"){
   gse_gpl = lapply(GSE, getGPLid, destdir)
   gse_gpl = do.call(rbind,gse_gpl)
