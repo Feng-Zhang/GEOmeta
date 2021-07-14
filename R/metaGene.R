@@ -31,7 +31,7 @@ metaGene = function(pheGene,geneName){
     metaInput = rbind(metaInput,tempInput)
 
   }
-  metaData = metacont(studlab=study,n_case,mean_case,sd_case,n_control,mean_control,sd_control, data=metaInput, sm="SMD")
+  metaData = metacont(studlab=study,n_case,mean_case,sd_case,n_control,mean_control,sd_control, data=metaInput, sm="SMD",title=geneName)
   return(metaData)
 }
 
@@ -48,7 +48,7 @@ metaGene = function(pheGene,geneName){
 ##'
 metaRes = function(metaData){
   if(!"meta" %in% class(metaData)) stop("metaRes only receive data with class attribution of meta")
-  res= data.frame(metaData)
+  res= data.frame(title=metaData$title,metaData)
   res[,c("fixed_TE","fixed_lower","fixed_upper","fixed_z","fixed_pvalue","random_TE","random_lower","random_upper","random_z","random_pvalue","I2","tao2","heter_pvalue")] = NA
   res[1,c("fixed_TE","fixed_lower","fixed_upper","fixed_z","fixed_pvalue")] = data.frame(summary(metaData)$fixed)[c("TE", "lower", "upper","statistic","p")]
   res[1,c("random_TE","random_lower","random_upper","random_z","random_pvalue")] = data.frame(summary(metaData)$random)[c("TE", "lower", "upper","statistic","p")]

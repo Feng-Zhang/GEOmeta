@@ -38,20 +38,33 @@ mergeByRowname = function(x,y,all=TRUE,...){
 ##' @importFrom  stringr str_split_fixed
 ##' @importFrom  utils read.table
 combineExprs = function(destdir="tmp",GSEs=NULL){
-  allMatrix = NULL
+  allMatrix <- Symbol <- NULL
   exprFiles = dir(path=destdir,pattern = "^GSE.*-GPL.*-matrix.txt$")
   if(is.null(GSEs)){GSEs = unique(str_split_fixed(exprFiles,"-",2)[,1])}
   for(i in GSEs){
     GSEnames = exprFiles[str_detect(exprFiles,pattern = paste0("^",i))]
     expr = NULL
     for(j in GSEnames){
-      temp = read.table(paste0(destdir,"/",j),header = TRUE,sep="\t")
-      if(j==GSEnames[1])  expr = temp else {expr= mergeByRowname(expr,temp) }
+      temp = fread(paste0(pathTail(destdir),j))
+      colnames(temp)[1]="Symbol"
+      if(j==GSEnames[1])  expr = temp else {expr= merge(expr,temp,by="Symbol",all=TRUE) }
     }
+
     if(i==GSEs[1]) allMatrix=expr else{
-      allMatrix = mergeByRowname(allMatrix,expr)
+      allMatrix = merge(allMatrix,expr,by="Symbol",all=TRUE)
     }
   }
-  allMatrix = allMatrix[!row.names(allMatrix) %in% c(""),]
+  allMatrix = allMatrix[allMatrix$Symbol != c("")]
   return(allMatrix)
+}
+
+##' @title Convert delimiter to "/" for different system
+##' @description Convert delimiter to "/" for different system, and end of "/"
+##' @param  path A character for the path
+##' @return A character for the path
+##' @export
+pathTail = function(path){
+  path = normalizePath(path,winslash = "/")
+  path = paste0(path,"/")
+  return(path)
 }

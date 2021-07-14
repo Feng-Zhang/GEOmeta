@@ -9,19 +9,23 @@
 ##' @param getGPL A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.
 ##' @return Save the files of expression matrix and phenotype information. The pattern of filename are GSE-GPL-phe.txt for phenotype and GSE-GPL-matrix.txt for genotype splilted by tab.
 ##' @export
-##' @importFrom GEOquery getGEO
+##' @importFrom GEOquery getGEO Table
 ##' @importFrom Biobase pData exprs
 ##' @importFrom utils write.table
 
 saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
   annotation <- NULL
   #GSE="GSE18508" GSE="GSE128562" GSE="GSE114517"
-  if(!file.exists(destdir)) dir.create(destdir)
+  if(!dir.exists(destdir)) dir.create(destdir)
   # download expresstion matrix
   gse = getGEO(GSE, destdir = destdir, getGPL = getGPL)
   for(i in 1:length(gse)){
     eSet = gse[[i]]
     GPL = eSet@annotation
+    if(GPL=="GPL19099") {
+      GPL="GPL13667"
+      eSet@featureData@data = Table(getGEO(GPL,getGPL=TRUE))
+    }
     pheFileName = paste0(destdir,"/",GSE,"-",GPL,"-phe.txt")
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)
@@ -34,7 +38,7 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
     }
 
-    write.table(pdata,file = pheFileName,sep="\t",quote = TRUE)
+    write.table(pdata,file = pheFileName,sep="\t",quote = TRUE,row.names = FALSE)
     write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
   }
   #invisible(exitStatus)
@@ -50,6 +54,7 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
 ##' @return A data.frame.
 ##' @export
 ##' @importFrom GEOquery Table
+##' @importFrom stringr str_trim str_split_fixed
 annoProbe = function(GPL="GPL9061",GPLdata=NA){
   #有些芯片没有基因信息，因此很难获得。如GSE18508的平台为GPL9061，但是GEO就没有任何GPL信息。GSE10的平台为GPL4，但是没有基因信息。
   # obtain the header of gene symbol in GPL
@@ -67,6 +72,12 @@ annoProbe = function(GPL="GPL9061",GPLdata=NA){
 
   anno=GPLdata[,ids]
   colnames(anno)=c("probeID","symbolID")
+
+  if(ids[2]=="gene_assignment"){
+    symbols = str_split_fixed(anno$symbolID,"//",3)
+    anno$symbolID = str_trim(symbols[,2])
+  }
+
   return(anno)
 }
 
@@ -89,3 +100,31 @@ probesToGene = function(exprSet,probe_symbol){
 
   return(exprSet)
 }
+
+
+getGPLid = function(GSE, destdir = "tmp"){
+  annotation <- NULL
+  if (!dir.exists(destdir)) dir.create(destdir)
+  gse = getGEO(GSE, destdir = destdir, getGPL = FALSE)
+  gse_gpl = NULL
+  for (i in 1:length(gse)) {
+    eSet = gse[[i]]
+    GPL = eSet@annotation
+    gse_gpl = rbind(gse_gpl,c(GSE,GPL))
+  }
+  return(gse_gpl)
+}
+
+##' @title Get GPL id for multiple GSE
+##' @param GSE A character, the number of GSE.
+##' @param destdir A character, the path to download GSE related files.
+##' @return A data frame with GSE and GPL.
+##' @export
+GSEtoGPL = function(GSE, destdir = "tmp"){
+  gse_gpl = lapply(GSE, getGPLid, destdir)
+  gse_gpl = do.call(rbind,gse_gpl)
+  colnames(gse_gpl)=c("GSE","GPL")
+  return(gse_gpl)
+}
+
+
