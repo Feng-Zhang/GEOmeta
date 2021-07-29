@@ -22,10 +22,10 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
   for(i in 1:length(gse)){
     eSet = gse[[i]]
     GPL = eSet@annotation
-    if(GPL=="GPL19099") {
-      GPL="GPL13667"
-      eSet@featureData@data = Table(getGEO(GPL,getGPL=TRUE))
-    }
+    # if(GPL=="GPL19099") {
+    #   GPL="GPL13667"
+    #   eSet@featureData@data = Table(getGEO(GPL,getGPL=TRUE))
+    # }
     pheFileName = paste0(destdir,"/",GSE,"-",GPL,"-phe.txt")
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)

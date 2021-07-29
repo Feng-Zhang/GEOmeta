@@ -33,11 +33,12 @@ mergeByRowname = function(x,y,all=TRUE,...){
 ##'
 ##' @param destdir A character, the path to save expression data, where file name of expression data has pattern ^GSE.*-GPL.*-matrix.txt$ .
 ##' @param GSEs A vector of GSE character. default to combine all expression data in destdir filefolder.
+##' @param is_duplicated A logical. default to duplicated the same features
 ##' @return Save the files of expression matrix and phenotype information.
 ##' @export
 ##' @importFrom  stringr str_split_fixed
 ##' @importFrom  utils read.table
-combineExprs = function(destdir="tmp",GSEs=NULL){
+combineExprs = function(destdir="tmp",GSEs=NULL,is_duplicated=TRUE){
   allMatrix <- Symbol <- NULL
   exprFiles = dir(path=destdir,pattern = "^GSE.*-GPL.*-matrix.txt$")
   if(is.null(GSEs)){GSEs = unique(str_split_fixed(exprFiles,"-",2)[,1])}
@@ -47,6 +48,7 @@ combineExprs = function(destdir="tmp",GSEs=NULL){
     for(j in GSEnames){
       temp = fread(paste0(pathTail(destdir),j))
       colnames(temp)[1]="Symbol"
+      if(is_duplicated) temp = uniqueFeature(temp,key="Symbol")
       if(j==GSEnames[1])  expr = temp else {expr= merge(expr,temp,by="Symbol",all=TRUE) }
     }
 
@@ -67,4 +69,16 @@ pathTail = function(path){
   path = normalizePath(path,winslash = "/")
   path = paste0(path,"/")
   return(path)
+}
+
+##' @title Convert delimiter to "/" for different system
+##' @description Convert delimiter to "/" for different system, and end of "/"
+##' @param expr A data.table with Symbol and expression level
+##' @param key A character for Symbol feature
+##' @return A unique data.table
+##' @export
+uniqueFeature = function(expr,key="Symbol"){
+  tmp = by(expr,expr[,key,with = FALSE],function(x) rownames(x)[which.max(rowMeans(x[,-key,with = FALSE]))])
+  idx = as.numeric(tmp)
+  return(expr[idx,])
 }

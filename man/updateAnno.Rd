@@ -4,7 +4,7 @@
 \alias{updateAnno}
 \title{Add new annotation information of GPL to GPLlist}
 \usage{
-updateAnno(GPL, probeID, symbolID)
+updateAnno(GPL, probeID, symbolID, overwrite = FALSE)
 }
 \arguments{
 \item{GPL}{A character, the number of GSE.}
@@ -12,6 +12,8 @@ updateAnno(GPL, probeID, symbolID)
 \item{probeID}{A character, the header of probe from specific GPL platform.}
 
 \item{symbolID}{A character, the header of gene symbol from specific GPL platform.}
+
+\item{overwrite}{By default, use_data() will not overwrite existing files. If you really want to do so, set this to TRUE.}
 }
 \value{
 update the GPLlist.rda in data folder

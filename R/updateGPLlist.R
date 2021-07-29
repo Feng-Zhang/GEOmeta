@@ -5,6 +5,7 @@
 ##' @param GPL A character, the number of GSE.
 ##' @param probeID A character, the header of probe from specific GPL platform.
 ##' @param symbolID A character, the header of gene symbol from specific GPL platform.
+##' @param overwrite By default, use_data() will not overwrite existing files. If you really want to do so, set this to TRUE.
 ##' @return update the GPLlist.rda in data folder
 ##' @export
 ##' @examples
@@ -16,15 +17,15 @@
 ##' }
 ##' @importFrom usethis use_data
 
-updateAnno = function(GPL,probeID,symbolID){
+updateAnno = function(GPL,probeID,symbolID,overwrite=FALSE){
   rawRowN = nrow(GPLlist)
   if(!GPL %in%  GPLlist$GPL){
     temp=c(GPL,probeID,symbolID)
     GPLlist = rbind(GPLlist,temp)
     row.names(GPLlist)[GPLlist$GPL==GPL]=GPL
     GPLlist = GPLlist[order(GPLlist[,"GPL"]),]
-    if(nrow(GPLlist)>rawRowN){
-      use_data(GPLlist,overwrite=TRUE)
+    if(nrow(GPLlist)>rawRowN & overwrite){
+      use_data(GPLlist,overwrite=overwrite)
     }
   }
 
