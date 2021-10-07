@@ -13,7 +13,7 @@ saveGSE(GSE, destdir = "tmp", annotSymbol = FALSE, getGPL = FALSE)
 
 \item{annotSymbol}{A Boolean. The default is FALSE, do not annotate probe to gene Symbol.}
 
-\item{getGPL}{A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.}
+\item{getGPL}{if annoSymbol is TRUE, getGPL should be TRUE as well. A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.}
 }
 \value{
 Save the files of expression matrix and phenotype information. The pattern of filename are GSE-GPL-phe.txt for phenotype and GSE-GPL-matrix.txt for genotype splilted by tab.

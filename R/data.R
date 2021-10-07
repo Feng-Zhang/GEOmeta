@@ -13,3 +13,5 @@ NULL
 #' @examples data(phe_test)
 #' str(phe_test)
 NULL
+
+utils::globalVariables(c("GPLlist","phe_test"))

@@ -28,5 +28,5 @@ updateAnno = function(GPL,probeID,symbolID,overwrite=FALSE){
       use_data(GPLlist,overwrite=overwrite)
     }
   }
-
+  return(GPLlist)
 }

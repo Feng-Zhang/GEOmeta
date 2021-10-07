@@ -6,7 +6,7 @@
 ##' @param GSE A character, the number of GSE.
 ##' @param destdir A character, the path to download GSE related files.
 ##' @param annotSymbol A Boolean. The default is FALSE, do not annotate probe to gene Symbol.
-##' @param getGPL A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.
+##' @param getGPL if annoSymbol is TRUE, getGPL should be TRUE as well. A boolean defaulting to TRUE as to whether or not to download and include GPL information when getting a GSEMatrix file. You may want to set this to FALSE if you know that you are going to annotate your featureData using Bioconductor tools rather than relying on information provided through NCBI GEO. Download times can also be greatly reduced by specifying FALSE.
 ##' @return Save the files of expression matrix and phenotype information. The pattern of filename are GSE-GPL-phe.txt for phenotype and GSE-GPL-matrix.txt for genotype splilted by tab.
 ##' @export
 ##' @importFrom GEOquery getGEO Table
@@ -22,10 +22,6 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
   for(i in 1:length(gse)){
     eSet = gse[[i]]
     GPL = eSet@annotation
-    # if(GPL=="GPL19099") {
-    #   GPL="GPL13667"
-    #   eSet@featureData@data = Table(getGEO(GPL,getGPL=TRUE))
-    # }
     pheFileName = paste0(destdir,"/",GSE,"-",GPL,"-phe.txt")
     exprFileName = paste0(destdir,"/",GSE,"-",GPL,"-matrix.txt")
     pdata = pData(eSet)
@@ -34,6 +30,7 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
     GPLdata = eSet@featureData@data
     if(annotSymbol){
       if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
+      if(ncol(eSet@featureData@data)==0) GPLdata = Table(getGEO(GPL,getGPL=TRUE))
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
     }
@@ -64,11 +61,11 @@ annoProbe = function(GPL="GPL9061",GPLdata=NA){
     stop("The gene symbol header of the ",GPL," is not in our GPLlist! \n Please add GPL, ID,Gene symbol to GPLlist.")
   }
 
-  #download the data of GPL
-  if(is.null(nrow(GPLdata))) {
-    GPLdata = Table(getGEO(GPL,getGPL=TRUE))
-    if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip")
-  }
+  # #download the data of GPL
+  # if(is.null(nrow(GPLdata))) {
+  #   GPLdata = Table(getGEO(GPL,getGPL=TRUE))
+  #   if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip")
+  # }
 
   anno=GPLdata[,ids]
   colnames(anno)=c("probeID","symbolID")
