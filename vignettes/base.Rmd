@@ -47,7 +47,7 @@ gseIds=c("GSE32138","GSE24132","GSE38900")
 ```{r}
 for(i in gseIds){
   print(i)
-  saveGSE(i,destdir = "../tmp",annotSymbol = TRUE)
+  saveGSE(i,destdir = "../tmp",annotSymbol = TRUE, getGPL=TRUE)
 }
 
 ```
@@ -90,5 +90,6 @@ head(allMeta)
 
 
 ### to do
-- 测试数据GSE38900太大，不方便测试。选择小一点的数据。  
-- Undefined global functions or variables:    GPLlist
+- [] 测试数据GSE38900太大，不方便测试。选择小一点的数据。  
+- [x] Undefined global functions or variables:    GPLlist
+- [] 使用fread读取数据。`write.table()`默认输出行名，但是行名那一列没有列名。如果后面要用fread的话，需要手动加一列symbolID，再输出，或者用`write.csv`输出csv文件。
