@@ -74,7 +74,7 @@ annoProbe = function(GPL="GPL9061",GPLdata=NA){
     symbols = str_split_fixed(anno$symbolID,"//",3)
     anno$symbolID = str_trim(symbols[,2])
   }
-
+  row.names(anno) <- anno[,"probeID"]
   return(anno)
 }
 
@@ -89,7 +89,7 @@ annoProbe = function(GPL="GPL9061",GPLdata=NA){
 ##' @return matrix, the clean expression matrix with colname of individual ids and rowname of gene symbol.
 probesToGene = function(exprSet,probe_symbol){
   print(paste0("The dim of raw expression matrix: number of row is ",nrow(exprSet),", number of column is ",ncol(exprSet)))
-  tmp = by(exprSet,probe_symbol$symbolID,function(x) rownames(x)[which.max(rowMeans(x))])
+  tmp = by(exprSet,probe_symbol[row.names(exprSet),"symbolID"],function(x) rownames(x)[which.max(rowMeans(x))])
   probes = as.character(tmp)
   exprSet=exprSet[rownames(exprSet) %in% probes ,]
   print(paste0("The dim of expression matrix with gene symbol: number of row is ",nrow(exprSet),", number of column is ",ncol(exprSet)))
