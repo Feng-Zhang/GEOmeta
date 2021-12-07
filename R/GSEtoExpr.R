@@ -30,13 +30,13 @@ saveGSE = function(GSE,destdir="tmp",annotSymbol=FALSE,getGPL=FALSE){
     GPLdata = eSet@featureData@data
     if(annotSymbol){
       if(nrow(GPLdata)==0) stop("There is no GPL information for this GSE chip.")
-      if(ncol(eSet@featureData@data)==0) GPLdata = Table(getGEO(GPL,getGPL=TRUE))
+      if(ncol(GPLdata)==0) GPLdata = Table(getGEO(GPL,getGPL=TRUE))
       probe_symbol = annoProbe(GPL=GPL,GPLdata=GPLdata) #对探针进行注释
       exprSet = probesToGene(exprSet,probe_symbol) #把多个探针换成基因
     }
-
+    exprSet <- cbind(Symbol=row.names(exprSet),exprSet)
     write.table(pdata,file = pheFileName,sep="\t",quote = TRUE,row.names = FALSE)
-    write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE)
+    write.table(exprSet,file = exprFileName,sep="\t",quote = TRUE,row.names = FALSE)
   }
   #invisible(exitStatus)
   return("Conversion Done!")
