@@ -7,3 +7,4 @@
 - [ ] metaGene中pheGene的列名被限定死了，能不能改？如果不能改在Rd文档中进行说明。pheGene的对象要预先限定，要不然data.table的对象传进来会报错。
 - [x] saveGSE使用write.table时有些基因名会变成1-Dec字样。这是由于Table(getGEO(GPL,getGPL=TRUE))获取GPL信息时就已经变成这样，没办法修正。
 - [ ] perf_20211215_uniqueFeature: uniqueFeature只接受data.table数据，而不接受tbl数据，需要把uniqueFeature改成S3对象，接受data.frame, data.table, tbl对象
+- [ ] feat-20220714: 保持代码风格一致；
