@@ -2,7 +2,7 @@
 % Please edit documentation in R/updateGPLlist.R
 \name{updateAnno}
 \alias{updateAnno}
-\title{Add new annotation information of GPL to GPLlist}
+\title{Add new annotation information of GPL to GPL_list}
 \usage{
 updateAnno(GPL, probeID, symbolID, overwrite = FALSE)
 }
@@ -16,10 +16,10 @@ updateAnno(GPL, probeID, symbolID, overwrite = FALSE)
 \item{overwrite}{By default, use_data() will not overwrite existing files. If you really want to do so, set this to TRUE.}
 }
 \value{
-update the GPLlist.rda in data folder
+update the GPL_list.rda in data folder
 }
 \description{
-Given GPL, probeID, and symbolID from GPL data, update the GPLlist data.
+Given GPL, probeID, and symbolID from GPL data, update the GPL_list data.
 }
 \details{
 nothing
@@ -29,6 +29,6 @@ nothing
 GPL="GPL13648"
 gplDat = Table(getGEO(GPL,getGPL=TRUE,destdir ="tmp"));colnames(gplDat)
 updateAnno(GPL,probeID="ID",symbolID="Gene Symbol")
-load("data/GPLlist.rda")
+load("data/GPL_list.rda")
 }
 }

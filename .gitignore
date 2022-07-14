@@ -1,5 +1,5 @@
 # temptary file
-tmp/*
+temp-dir/*
 # History files
 .Rhistory
 .Rapp.history

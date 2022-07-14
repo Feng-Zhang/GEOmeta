@@ -14,33 +14,33 @@
 
 
 
-getProbe = function(geneName,GPL,expr){
+getProbe <- function(geneName,GPL,expr){
 
   #geneName=gene;GPL=GSE_GPL[id,"GPL"];expr=exprSet
-  annoRaw = readLines(paste0(GPL,".soft"))
-  annoGene = annoRaw[str_detect(annoRaw,paste(' ',geneName,' |\t',geneName,"\t",sep=""))]
-  annoGene = str_split(annoGene,"\t", simplify = T)
+  anno_raw <- readLines(paste0(GPL,".soft"))
+  anno_gene <- anno_raw[str_detect(anno_raw,paste(' ',geneName,' |\t',geneName,"\t",sep=""))]
+  anno_gene <- str_split(anno_gene,"\t", simplify = T)
   # get matrix of specific gene
-  if(length(annoGene)==0){
-    probeName = NA
-  } else if(length(annoGene)==1){
-    probeName = annoGene[,1]
-  } else if(length(annoGene)>1){
-    probeNames = annoGene[,1]
-    temp = expr[probeNames,]
-    probeName = rownames(temp)[which.max(rowMeans(temp))]
+  if(length(anno_gene)==0){
+    probe_name <- NA
+  } else if(length(anno_gene)==1){
+    probe_name <- anno_gene[,1]
+  } else if(length(anno_gene)>1){
+    probe_names <- anno_gene[,1]
+    temp <- expr[probe_names,]
+    probe_name <- rownames(temp)[which.max(rowMeans(temp))]
   }
 
   # get full annotation
-  if(nrow(annoGene)==0) {
-    anno = cbind(geneName,GPL,nrow(expr),"NA")
-    colnames(anno)=c("Gene","GPL","detectedExprNum","probe")
+  if(nrow(anno_gene)==0) {
+    anno <- cbind(geneName,GPL,nrow(expr),"NA")
+    colnames(anno) <- c("Gene","GPL","detectedExprNum","probe")
   } else{
-    anno = cbind(geneName,GPL,nrow(expr),annoGene)
-    title = annoRaw[str_detect(annoRaw,"^ID")]
-    title = str_split(annoGene,"\t", simplify = T)
-    colnames(anno)=c("Gene","GPL","detectedExprNum",title)
+    anno <- cbind(geneName,GPL,nrow(expr),anno_gene)
+    title <- anno_raw[str_detect(anno_raw,"^ID")]
+    title <- str_split(anno_gene,"\t", simplify = T)
+    colnames(anno) <- c("Gene","GPL","detectedExprNum",title)
   }
 
-  return(list(probeName,anno))
+  return(list(probe_name,anno))
 }
