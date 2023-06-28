@@ -4,7 +4,7 @@
 \alias{GSE_GPL}
 \title{Get GPL id for multiple GSE}
 \usage{
-GSE_GPL(GSE, destdir = "temp-dir")
+GSE_GPL(GSE, destdir = "temp-data")
 }
 \arguments{
 \item{GSE}{A character, the number of GSE.}

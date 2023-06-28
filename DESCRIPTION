@@ -17,5 +17,7 @@ Imports:
     data.table,
     meta,
     Biobase,
+    S4Vectors,
+    SummarizedExperiment,
     usethis
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

@@ -4,7 +4,7 @@
 \alias{save_GSE}
 \title{Download GSE expression matrix and convert probe to gene symbol}
 \usage{
-save_GSE(GSE, destdir = "temp-dir", annotSymbol = FALSE, getGPL = FALSE)
+save_GSE(GSE, destdir = "temp-data", annotSymbol = FALSE, getGPL = FALSE)
 }
 \arguments{
 \item{GSE}{A character, the number of GSE.}
