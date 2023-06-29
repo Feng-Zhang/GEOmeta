@@ -1,9 +1,9 @@
 #' @title GPL annotation
 #' @docType data
-#' @name GPLlist
+#' @name GPL_list
 #' @format A data.frame.
-#' @examples data(GPLlist)
-#' str(GPLlist)
+#' @examples data(GPL_list)
+#' str(GPL_list)
 NULL
 
 #' @title phenotype for test
@@ -14,4 +14,4 @@ NULL
 #' str(phe_test)
 NULL
 
-utils::globalVariables(c("GPLlist","phe_test"))
+utils::globalVariables(c("GPL_list","phe_test"))

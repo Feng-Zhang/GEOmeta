@@ -1,7 +1,7 @@
 Package: GEOmeta
 Type: Package
 Title: some custom R script in bioinformatics field
-Version: 0.1.0
+Version: 0.1.1
 Author: Feng Zhang
 Maintainer: Feng Zhang <fengzhang0709@hotmail.com>
 Description: More about what it does (maybe more than one line)
@@ -10,12 +10,14 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 Imports:
     stringr,
     GEOquery,
     data.table,
     meta,
     Biobase,
+    S4Vectors,
+    SummarizedExperiment,
     usethis
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
