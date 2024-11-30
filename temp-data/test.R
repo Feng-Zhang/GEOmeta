@@ -8,21 +8,23 @@ if(!file.exists(temp_dir)) dir.create(temp_dir)
 library(tidyverse)
 library(GEOquery)
 library(SummarizedExperiment)
+library(devtools)
 
 # test function ---------------
-gse <- getGEO("GSE35640", destdir = temp_dir, getGPL = T)
+gse_id <- "GSE218847"
+gse <- getGEO(gse_id, destdir = temp_dir, getGPL = T)
 eSet <- gse[[1]]
-gpl <- Table(getGEO("GPL25929", destdir = temp_dir))
-update_gpl_list("GPL25929",probeID="ID",symbolID="ORF",overwrite = T)
+gpl_id <- "GPL29371"
+gpl <- Table(getGEO(gpl_id, destdir = temp_dir)); head(gpl)
+data( "GPL_list" )
+update_gpl_list(gpl_id,probeID="ID",symbolID="GeneSymbol",overwrite = T)
 load(file.path(project_dir,"data","GPL_list.rda"))
-
+GPL_list
 
 # test package install ---------------------------
 rm(list=ls());options(stringsAsFactors=FALSE)
-library(devtools)
-load_all()
+load_all(project_dir)
 devtools::run_examples()
-
 library(roxygen2)
 roxygen2::roxygenize()
 check()
