@@ -31,8 +31,8 @@ save_GSE <- function(GSE,destdir="temp-data",annotSymbol=FALSE,getGPL=FALSE){
     if(annotSymbol){
       if(nrow(GPL_data)==0) stop("There is no GPL information for this GSE chip.")
       if(ncol(GPL_data)==0) GPL_data = Table(getGEO(GPL_id,getGPL=TRUE))
-      probe_symbol <- get_probe_anno(GPL_id=GPL_id,GPL_data=GPL_data) #对探针进行注释
-      expr_mat <- convert_probe_symbol_expr(expr_mat,probe_symbol) #把多个探针换成基因
+      probe_anno <- get_probe_anno(GPL_id=GPL_id,GPL_data=GPL_data) #对探针进行注释
+      expr_mat <- convert_probe_symbol_expr(expr_mat,probe_anno) #把多个探针换成基因
     }
     write.table(pdata,file = phe_filename,sep="\t",quote = TRUE,row.names = FALSE)
     write.table(expr_mat,file = expr_filename,sep="\t",quote = TRUE,row.names = TRUE)
@@ -117,8 +117,8 @@ get_probe_anno <- function(GPL_id="GPL9061",GPL_data=NULL){
 convert_probe_symbol_expr <- function(expr_mat,probe_anno){
   print(paste0("The dim of raw expression matrix: number of row is ",nrow(expr_mat),", number of column is ",ncol(expr_mat)))
   tmp <- by(expr_mat,probe_anno[row.names(expr_mat),"symbolID"],function(x) rownames(x)[which.max(rowMeans(x))])
-  probes <- as.character(tmp)
-  expr_mat <- expr_mat[rownames(expr_mat) %in% probes ,]
+  expr_mat <- expr_mat[as.character(tmp) ,]
+  row.names(expr_mat) <- probe_anno[as.character(tmp),'symbolID']
   print(paste0("The dim of expression matrix with gene symbol: number of row is ",nrow(expr_mat),", number of column is ",ncol(expr_mat)))
   #rownames(expr_mat) <- probe_anno[match(rownames(expr_mat),probe_anno$probeID),2]
   return(expr_mat)
